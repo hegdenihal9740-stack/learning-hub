@@ -1,0 +1,14 @@
+[
+ {"capability":"code","source":"github hegdenihal9740-stack/lms-learning-hub (src/campusly, routes, components, tests)","outcome":"migrate","status":"in_progress","next_action":"copy source into project"},
+ {"capability":"assets","source":"4 asset pointers owned by source project 59b23c25 + bundled images","outcome":"re-upload to this project","status":"pending","next_action":"download from source preview host and re-upload"},
+ {"capability":"schema","source":"student_feedback table + RLS (drizzle migration 0000)","outcome":"migrate","status":"pending","next_action":"enable Cloud and apply migration"},
+ {"capability":"records","source":"student_feedback rows in source Cloud","outcome":"migrate","status":"pending","next_action":"request CSV/JSON export after preview"},
+ {"capability":"auth identities","source":"Lovable Cloud auth (email/password, Google), login-only","outcome":"migrate","status":"pending","next_action":"enable email + Google, disable signup; request users export"},
+ {"capability":"authorization","source":"RLS own-rows on student_feedback","outcome":"migrate","status":"pending","next_action":"recreate in migration"},
+ {"capability":"local device data","source":"profile, photo, batches, demo data in browser storage","outcome":"unchanged (browser-only)","status":"done","next_action":"none"},
+ {"capability":"storage/files","source":"none in Cloud","outcome":"n/a","status":"done","next_action":"none"},
+ {"capability":"public endpoints/webhooks/schedules","source":"none found","outcome":"n/a","status":"done","next_action":"none"},
+ {"capability":"secrets","source":".env holds only Cloud connection values (platform-managed)","outcome":"replaced by this project's Cloud","status":"done","next_action":"none"},
+ {"capability":"cutover","source":"old project 59b23c25","outcome":"n/a until users/records imported","status":"pending","next_action":"none"},
+ {"capability":"verification","source":"tests + preview","outcome":"verify","status":"pending","next_action":"run tests and check preview"}
+]
