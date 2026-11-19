@@ -51,9 +51,9 @@ body:has(.roadmap-page:not(.module-session-page)){
   box-shadow:0 30px 60px -34px oklch(0.2 0.1 280 / 0.75);
   animation:rm-rise .6s cubic-bezier(.2,.8,.2,1) both;
 }
-/* Cover: the hero fills the first screen, the roadmap is revealed by scrolling. */
+/* Closing card: the hero sits after the finish line and points back up to the road. */
 .roadmap-page .roadmap-hero{
-  min-height:max(440px,min(900px,calc(100svh - var(--rm-cover-chrome,150px))));
+  min-height:min(420px,60svh);
   grid-template-rows:auto auto auto;
   align-content:center;
   align-items:center;
@@ -70,8 +70,8 @@ body:has(.roadmap-page:not(.module-session-page)){
 .roadmap-hero-scroll:hover{background:oklch(1 0 0 / 0.15);color:var(--rm-on-dark);transform:translateY(-2px)}
 .roadmap-hero-scroll:focus-visible{outline:3px solid var(--rm-orange);outline-offset:3px}
 .roadmap-hero-scroll svg{animation:rm-scroll-nudge 1.8s ease-in-out infinite}
-@keyframes rm-scroll-nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
-/* Chrome above/below the cover: topbar + content padding (+ fixed bottom bar on small screens). */
+@keyframes rm-scroll-nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+/* Chrome above/below the card: topbar + content padding (+ fixed bottom bar on small screens). */
 @media(max-width:980px){.roadmap-page{--rm-cover-chrome:206px}}
 @media(max-width:720px){.roadmap-page{--rm-cover-chrome:186px}}
 /* Tall screens: grow the cover's content with the viewport so it fills the first screen. */
