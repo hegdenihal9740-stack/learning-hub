@@ -828,6 +828,9 @@ function Courses({ data, setPage }) {
     const node = roadmapMapRef.current?.querySelector(`[data-module-id="${id}"]`)
     node?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
+  const scrollToRoadmap = () => {
+    roadmapMapRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
   const selected = mods.find((c) => c.id === openModule)
   const selectedRoadmap = selected ? MODULE_ROADMAP[selected.id] : null
   const sessionTrackPath = selected ? buildSessionTrackPath(selected.sessions.length) : ''
@@ -1092,26 +1095,12 @@ function Courses({ data, setPage }) {
     window.addEventListener('resize', handleResize)
     update()
 
-    // On opening the roadmap, glide down to the current module so the student is ready to climb.
-    const startIntro = window.setTimeout(() => {
-      measure()
-      if (!metrics || window.scrollY > 40 || metrics.scrollAtCurrent - window.scrollY < 40) return
-      const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-      introScrolling = true
-      setRunnerDirection(-1)
-      window.scrollTo({ top: metrics.scrollAtCurrent, behavior: prefersReducedMotion ? 'auto' : 'smooth' })
-      introTimer = window.setTimeout(() => {
-        introScrolling = false
-        introTimer = 0
-        scheduleUpdate()
-      }, prefersReducedMotion ? 50 : 1400)
-    }, 450)
+    // The cover stays put: the student reveals the roadmap by scrolling, or with the cover's scroll cue.
 
     return () => {
       if (frame) window.cancelAnimationFrame(frame)
       if (stopTimer) window.clearTimeout(stopTimer)
       if (introTimer) window.clearTimeout(introTimer)
-      window.clearTimeout(startIntro)
       resizeObserver?.disconnect()
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleResize)
@@ -1366,6 +1355,10 @@ function Courses({ data, setPage }) {
           </li>
         ))}
       </ol>
+      <button type="button" className="roadmap-hero-scroll" onClick={scrollToRoadmap}>
+        <span>Scroll to see your roadmap</span>
+        <ChevronDown size={16}/>
+      </button>
     </section>
     {currentCourse?.progress === 100 && currentMissingTests.length > 0 && (
       <div className="notice-card">
@@ -1376,18 +1369,6 @@ function Courses({ data, setPage }) {
         </div>
       </div>
     )}
-    <section className={cx('roadmap-finish', done === mods.length && 'is-unlocked')}>
-      <div className="roadmap-finish-icon" aria-hidden="true"><GraduationCap size={30}/></div>
-      <div className="roadmap-finish-copy">
-        <span className="roadmap-hero-pill">Finish line</span>
-        <h3>{done === mods.length ? 'You did it — graduation unlocked!' : 'Graduation & Master’s certificate'}</h3>
-        <p>{done === mods.length ? 'Every module is complete. Request your certificate from the Certificate page.' : `Complete all ${mods.length} modules to earn your certificate. ${mods.length - done} to go — keep going!`}</p>
-      </div>
-      <div className="roadmap-finish-progress">
-        <span>{done} of {mods.length} modules completed</span>
-        <div className="roadmap-module-bar"><i style={{ width: `${mods.length ? (done / mods.length) * 100 : 0}%` }}/></div>
-      </div>
-    </section>
     <div
       ref={roadmapMapRef}
       className="roadmap-game-map roadmap-journey-map roadmap-module-map"
@@ -1452,6 +1433,18 @@ function Courses({ data, setPage }) {
               </Suspense>
               </div>
     </div>
+    <section className={cx('roadmap-finish', done === mods.length && 'is-unlocked')}>
+      <div className="roadmap-finish-icon" aria-hidden="true"><GraduationCap size={30}/></div>
+      <div className="roadmap-finish-copy">
+        <span className="roadmap-hero-pill">Finish line</span>
+        <h3>{done === mods.length ? 'You did it — graduation unlocked!' : 'Graduation & Master’s certificate'}</h3>
+        <p>{done === mods.length ? 'Every module is complete. Request your certificate from the Certificate page.' : `Complete all ${mods.length} modules to earn your certificate. ${mods.length - done} to go — keep going!`}</p>
+      </div>
+      <div className="roadmap-finish-progress">
+        <span>{done} of {mods.length} modules completed</span>
+        <div className="roadmap-module-bar"><i style={{ width: `${mods.length ? (done / mods.length) * 100 : 0}%` }}/></div>
+      </div>
+    </section>
   </div>
   )
 }

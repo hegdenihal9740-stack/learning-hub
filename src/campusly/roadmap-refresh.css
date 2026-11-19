@@ -16,6 +16,7 @@
   --rm-on-dark-soft:oklch(0.85 0.03 270);
   --rm-shadow-card:0 18px 40px -22px oklch(0.25 0.08 270 / 0.45),0 2px 6px oklch(0.25 0.08 270 / 0.08);
   --rm-gradient-cta:linear-gradient(120deg,var(--rm-orange),var(--rm-pink));
+  --rm-cover-chrome:150px;
 }
 
 /* Bright "sunrise sky" page backdrop: vivid colour blooms over a soft blue base */
@@ -50,6 +51,59 @@ body:has(.roadmap-page:not(.module-session-page)){
   box-shadow:0 30px 60px -34px oklch(0.2 0.1 280 / 0.75);
   animation:rm-rise .6s cubic-bezier(.2,.8,.2,1) both;
 }
+/* Cover: the hero fills the first screen, the roadmap is revealed by scrolling. */
+.roadmap-page .roadmap-hero{
+  min-height:max(440px,min(900px,calc(100svh - var(--rm-cover-chrome,150px))));
+  grid-template-rows:auto auto auto;
+  align-content:center;
+  align-items:center;
+  padding:40px 36px 26px;
+}
+.roadmap-hero-scroll{
+  grid-column:1/-1;justify-self:center;display:inline-flex;align-items:center;gap:9px;
+  margin:6px 0 0;padding:9px 18px;border:1px solid oklch(1 0 0 / 0.18);border-radius:999px;
+  background:oklch(1 0 0 / 0.07);color:var(--rm-on-dark-soft);cursor:pointer;
+  font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  transition:background .2s ease,color .2s ease,transform .2s ease;
+  animation:rm-rise .6s cubic-bezier(.2,.8,.2,1) .35s both;
+}
+.roadmap-hero-scroll:hover{background:oklch(1 0 0 / 0.15);color:var(--rm-on-dark);transform:translateY(-2px)}
+.roadmap-hero-scroll:focus-visible{outline:3px solid var(--rm-orange);outline-offset:3px}
+.roadmap-hero-scroll svg{animation:rm-scroll-nudge 1.8s ease-in-out infinite}
+@keyframes rm-scroll-nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+/* Chrome above/below the cover: topbar + content padding (+ fixed bottom bar on small screens). */
+@media(max-width:980px){.roadmap-page{--rm-cover-chrome:206px}}
+@media(max-width:720px){.roadmap-page{--rm-cover-chrome:186px}}
+/* Tall screens: grow the cover's content with the viewport so it fills the first screen. */
+@media(min-height:900px) and (min-width:981px){
+  .roadmap-page .roadmap-hero{
+    gap:clamp(24px,4.5svh,80px);
+    padding:clamp(34px,6svh,110px) clamp(36px,4vw,64px) clamp(26px,4svh,70px);
+  }
+  .roadmap-hero-copy h1{font-size:clamp(38px,6svh,96px)}
+  .roadmap-hero-program{font-size:clamp(17px,2.2svh,32px)}
+  .roadmap-hero-sub{font-size:clamp(14px,1.8svh,24px)}
+  .roadmap-hero-actions{margin-top:clamp(18px,3svh,50px)}
+  .roadmap-hero-cta,.roadmap-hero-ghost{
+    min-height:clamp(48px,6svh,86px);padding:0 clamp(22px,3svh,44px);
+    font-size:clamp(14px,1.8svh,24px);border-radius:clamp(14px,1.6svh,24px);
+  }
+  .roadmap-ring{width:clamp(140px,18svh,300px);height:clamp(140px,18svh,300px)}
+  .roadmap-ring strong{font-size:clamp(28px,4svh,64px)}
+  .roadmap-ring span{font-size:clamp(10px,1.2svh,18px)}
+  .roadmap-hero-metrics{gap:clamp(10px,1.8svh,32px)}
+  .roadmap-hero-metrics li{
+    padding:clamp(10px,1.8svh,32px) clamp(14px,2.2svh,38px);
+    min-width:clamp(180px,18svh,320px);border-radius:clamp(14px,1.6svh,26px);
+  }
+  .roadmap-hero-metrics strong{font-size:clamp(19px,3svh,48px)}
+  .roadmap-hero-metrics small{font-size:clamp(12px,1.6svh,24px)}
+  .roadmap-hero-metrics span{font-size:clamp(11px,1.4svh,22px)}
+  .roadmap-milestones{padding-top:clamp(18px,3svh,60px)}
+  .roadmap-milestone i{width:clamp(34px,4.5svh,72px);height:clamp(34px,4.5svh,72px);font-size:clamp(10px,1.4svh,22px)}
+  .roadmap-hero-scroll{padding:clamp(9px,1.4svh,20px) clamp(16px,2.4svh,36px);font-size:clamp(10px,1.3svh,18px)}
+}
+@media(prefers-reduced-motion:reduce){.roadmap-hero-scroll,.roadmap-hero-scroll svg{animation:none}}
 .roadmap-hero-glow{position:absolute;inset:0;z-index:-1;pointer-events:none}
 .roadmap-hero-glow i{position:absolute;border-radius:50%;background:oklch(1 0 0 / 0.06);animation:rm-float 9s ease-in-out infinite}
 .roadmap-hero-glow i:nth-child(1){width:220px;height:220px;right:-60px;top:-80px}
@@ -322,8 +376,15 @@ body:has(.roadmap-page:not(.module-session-page)){
   .roadmap-hero-metrics li{flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
 }
 @media(max-width:640px){
-  .roadmap-hero-metrics{grid-template-columns:1fr}
-  .roadmap-hero-metrics li{flex-direction:row;align-items:baseline}
+  .roadmap-page .roadmap-hero{gap:12px;padding:14px 16px 12px}
+  .roadmap-ring{width:88px;height:88px}
+  .roadmap-ring strong{font-size:20px}
+  .roadmap-ring span{font-size:9px}
+  .roadmap-hero-metrics{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .roadmap-hero-metrics li{flex-direction:column;align-items:flex-start;gap:1px;min-width:0;padding:6px 8px;border-radius:11px}
+  .roadmap-hero-metrics strong{font-size:14px}
+  .roadmap-hero-metrics small,.roadmap-hero-metrics span{font-size:9.5px}
+  .roadmap-hero-scroll{margin-top:2px;padding:7px 14px;font-size:9.5px;letter-spacing:.07em}
 }
 
 /* ---------- Compact module cards: AI icon + module name ---------- */

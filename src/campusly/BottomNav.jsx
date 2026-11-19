@@ -11,9 +11,7 @@ const TABS = [
 export default function BottomNav({ page, setPage, onMore }) {
   const go = (id) => {
     if (id !== page) setPage(id);
-    requestAnimationFrame(() =>
-      window.scrollTo(0, id === "courses" ? document.documentElement.scrollHeight : 0),
-    );
+    requestAnimationFrame(() => window.scrollTo(0, 0));
   };
   const pastelTheme = page !== "dashboard" && page !== "courses";
 
