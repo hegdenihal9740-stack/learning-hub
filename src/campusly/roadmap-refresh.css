@@ -325,3 +325,55 @@ body:has(.roadmap-page:not(.module-session-page)){
   .roadmap-hero-metrics{grid-template-columns:1fr}
   .roadmap-hero-metrics li{flex-direction:row;align-items:baseline}
 }
+
+/* ---------- Compact module cards: AI icon + module name ---------- */
+.app-shell .roadmap-page .roadmap-module-card-compact,
+.roadmap-page .roadmap-module-card-compact{
+  display:flex;align-items:center;gap:10px;width:100%;max-width:250px;padding:9px 14px 9px 9px;
+  border:1px solid var(--rm-card-border);border-radius:16px;background:var(--rm-card);background-image:none;
+  color:var(--rm-ink);font:inherit;text-align:left;cursor:pointer;overflow:hidden;
+  animation:rm-card-float 4.5s ease-in-out calc(var(--module-reveal-delay,0ms) * -3) infinite;
+}
+.roadmap-page .journey-copy-right .roadmap-module-card-compact{margin-left:auto;flex-direction:row-reverse;text-align:right;padding:9px 9px 9px 14px}
+.roadmap-page .roadmap-module-card-compact::before{left:14px;right:14px}
+.roadmap-page .roadmap-module-card-compact::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(110deg,transparent 30%,oklch(1 0 0 / 0.55) 48%,transparent 66%);
+  transform:translateX(-120%);animation:rm-card-shine 5s ease-in-out calc(var(--module-reveal-delay,0ms) * 4) infinite;
+}
+.roadmap-page .roadmap-module-card-compact:focus-visible{outline:3px solid var(--module-accent);outline-offset:3px}
+.roadmap-page .roadmap-module-card-compact .roadmap-module-title{margin:0;font-size:14px;font-weight:800;line-height:1.25;letter-spacing:-.01em}
+.roadmap-module-ai-icon{
+  position:relative;display:grid;place-items:center;flex:none;width:36px;height:36px;border-radius:12px;
+  color:var(--rm-on-dark);
+  background:linear-gradient(140deg,color-mix(in srgb,var(--module-accent) 80%,white),color-mix(in srgb,var(--module-accent) 70%,var(--rm-navy)));
+  box-shadow:0 6px 14px -6px color-mix(in srgb,var(--module-accent) 80%,transparent);
+  animation:rm-icon-glow 2.8s ease-in-out infinite;
+}
+.roadmap-module-ai-icon::before{
+  content:"";position:absolute;inset:-3px;z-index:-1;border-radius:14px;
+  background:conic-gradient(from 0deg,transparent 0 60%,var(--module-accent) 80%,transparent 100%);
+  animation:rm-icon-spin 3.2s linear infinite;
+}
+.roadmap-module-ai-icon svg{animation:rm-icon-bob 2.4s ease-in-out infinite}
+.roadmap-page .journey-current .roadmap-module-ai-icon{background:var(--rm-gradient-cta)}
+.roadmap-page .roadmap-module-item:hover .roadmap-module-ai-icon svg{animation:rm-icon-pop .5s ease}
+
+@keyframes rm-card-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes rm-card-shine{0%,70%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@keyframes rm-icon-glow{0%,100%{box-shadow:0 6px 14px -6px color-mix(in srgb,var(--module-accent) 80%,transparent)}50%{box-shadow:0 0 0 5px color-mix(in srgb,var(--module-accent) 22%,transparent),0 8px 18px -6px var(--module-accent)}}
+@keyframes rm-icon-spin{to{transform:rotate(360deg)}}
+@keyframes rm-icon-bob{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-1.5px) scale(1.08)}}
+@keyframes rm-icon-pop{0%{transform:scale(1) rotate(0)}50%{transform:scale(1.3) rotate(-12deg)}100%{transform:scale(1) rotate(0)}}
+
+@media(max-width:640px){
+  .roadmap-page .roadmap-module-card-compact{max-width:none;gap:8px;padding:7px 10px 7px 7px;border-radius:13px}
+  .roadmap-page .journey-copy-right .roadmap-module-card-compact{padding:7px 7px 7px 10px}
+  .roadmap-page .roadmap-module-card-compact .roadmap-module-title{font-size:12.5px}
+  .roadmap-module-ai-icon{width:30px;height:30px;border-radius:10px}
+  .roadmap-module-ai-icon svg{width:16px;height:16px}
+}
+@media(prefers-reduced-motion:reduce){
+  .roadmap-page .roadmap-module-card-compact,.roadmap-page .roadmap-module-card-compact::after,
+  .roadmap-module-ai-icon,.roadmap-module-ai-icon::before,.roadmap-module-ai-icon svg{animation:none}
+}

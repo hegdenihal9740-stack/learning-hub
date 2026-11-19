@@ -19,7 +19,9 @@ import { buildBatchModuleSchedule, getWeekDates, getWeekStart, toDateKey } from 
 import { buildFeeReceiptData, downloadFeeReceiptDocx } from './feeReceipt.js'
 import StudentOnboarding from './StudentOnboarding.jsx'
 import { DEMO_PASSWORD_KEY, verifyStudentPassword } from './studentOnboarding.js'
-import { NotebookPen, Wallet, MapPin, Layers, Moon, Sun } from 'lucide-react'
+import { NotebookPen, Wallet, MapPin, Layers, Moon, Sun, Brain, ChartLine, Cloud, PieChart, Workflow, ScanEye, Bot, WandSparkles, Rocket } from 'lucide-react'
+
+const MODULE_AI_ICONS = { 1: Brain, 2: Database, 3: ChartLine, 4: Cloud, 5: PieChart, 6: Workflow, 7: ScanEye, 8: Bot, 9: WandSparkles, 10: Rocket }
 
 const LOGIN_ONBOARDING_KEY = 'campusly-login-onboarding-step'
 
@@ -720,25 +722,12 @@ function ModuleJourneyItem({ course, index, isNext = false, onOpen }) {
       )}
     </svg>
     <div className="roadmap-module-info">
-      <div className="roadmap-module-card">
-        <div className="roadmap-module-info-top">
-          <span className="roadmap-module-badge">Module {String(course.id).padStart(2, '0')}</span>
-          <span className="roadmap-module-state">
-            {course.state === 'Completed' ? <CheckCircle2 size={13}/> : course.state === 'Current' ? <i className="roadmap-state-dot"/> : <Sparkles size={12}/>}
-            {stateLabel}
-          </span>
-        </div>
-        <h3 className="roadmap-module-title">{title}</h3>
-        <div className="roadmap-module-meta">
-          <span><BookOpen size={13}/> {course.completed}/{course.lessons} sessions</span>
-          <strong>{course.progress}%</strong>
-        </div>
-        <div className="roadmap-module-bar" aria-hidden="true"><i style={{ width: `${Math.max(0, Math.min(100, course.progress))}%` }}/></div>
-        <button type="button" className="roadmap-module-open" onClick={onOpen}>
-          {course.state === 'Current' ? 'Continue learning' : course.state === 'Completed' ? 'Review sessions' : 'Preview sessions'}
-          <ArrowRight size={14}/>
-        </button>
-      </div>
+      <button type="button" className="roadmap-module-card roadmap-module-card-compact" onClick={onOpen} aria-label={`Open ${title}`}>
+        <span className="roadmap-module-ai-icon" aria-hidden="true">
+          {(() => { const Icon = MODULE_AI_ICONS[course.id] || Brain; return <Icon size={18} strokeWidth={2.2}/> })()}
+        </span>
+        <span className="roadmap-module-title">{title}</span>
+      </button>
     </div>
   </li>
   )
