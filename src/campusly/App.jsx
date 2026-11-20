@@ -4,6 +4,7 @@ import './campusly.css'
 import './roadmap-refresh.css'
 import feeReceiptLogo from '@/assets/skillai-fee-logo.png'
 import NeuralBackground from './NeuralBackground.jsx'
+import RoadmapAiIcons from './RoadmapAiIcons.jsx'
 import {
   Activity, ArrowDownRight, ArrowRight, ArrowUpRight, Award, Bell, BookOpen,
   CalendarDays, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, ClipboardList,
@@ -1326,6 +1327,7 @@ function Courses({ data, setPage }) {
       role="group"
       aria-label="Course module map"
     >
+      <RoadmapAiIcons/>
       <svg className="roadmap-module-track roadmap-module-track-desktop" viewBox={`0 0 1000 ${mods.length * 340}`} preserveAspectRatio="none" aria-hidden="true">
         <defs>
           <linearGradient id="roadmap-track-surface" x1="0" y1="0" x2="1" y2="1">
