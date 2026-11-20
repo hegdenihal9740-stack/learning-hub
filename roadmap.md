@@ -17,4 +17,4 @@
 - [ ] Brighter, livelier course roadmap background (page + map board)
 - [ ] Student walks from the current module up to Module 10 when scrolling up; page slides to the current module on open
 - [x] Compact course roadmap cards: module name only, AI icon per module, floating/shine/glow animations
-- [x] Add glowing AI pictures (chip, brain, robot, circuits, chart, code) floating in the course roadmap background, keeping its colours
+- [x] Realistic, high-quality AI pictures (chip, brain, robot, chart, code, AI core) floating in the course roadmap background, keeping its colours

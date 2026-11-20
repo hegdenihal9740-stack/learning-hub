@@ -439,41 +439,29 @@ body:has(.roadmap-page:not(.module-session-page)){
   .roadmap-module-ai-icon,.roadmap-module-ai-icon::before,.roadmap-module-ai-icon svg{animation:none}
 }
 
-/* ---------- Neon AI line-art floating behind the road (keeps the board's sky colours) ---------- */
+/* ---------- Realistic AI pictures floating behind the road (keeps the board's sky colours) ---------- */
 .roadmap-ai-icons{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .roadmap-ai-icon{
-  --ai-line:oklch(0.58 0.2 268);
-  --ai-glow:oklch(0.8 0.15 220 / 0.85);
   position:absolute;top:var(--ai-y);width:var(--ai-size);aspect-ratio:1/1;
-  display:grid;place-items:center;color:var(--ai-line);opacity:.78;
-  filter:drop-shadow(0 0 6px var(--ai-glow)) drop-shadow(0 0 14px oklch(0.75 0.17 290 / 0.45));
-  animation:rm-ai-float 7s ease-in-out var(--ai-delay) infinite,rm-ai-glow 4.5s ease-in-out var(--ai-delay) infinite;
+  display:grid;place-items:center;opacity:.9;
+  animation:rm-ai-float 7s ease-in-out var(--ai-delay) infinite;
 }
 .roadmap-ai-icon.is-left{left:2.5%}
 .roadmap-ai-icon.is-right{right:2.5%}
-.roadmap-ai-icon svg{width:100%;height:100%;overflow:visible;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-.roadmap-ai-icon .rm-ai-fill{fill:oklch(1 0 0 / 0.38)}
-.roadmap-ai-icon .rm-ai-glass{fill:oklch(1 0 0 / 0.32);stroke:oklch(1 0 0 / 0.95);stroke-width:2}
-.roadmap-ai-icon .rm-ai-thin{stroke-width:1.4;opacity:.75}
-.roadmap-ai-icon .rm-ai-text{fill:currentColor;stroke:none;font:900 26px/1 system-ui,sans-serif;letter-spacing:.02em}
-.roadmap-ai-icon .rm-ai-node{fill:oklch(0.92 0.1 210);stroke:currentColor;stroke-width:1.4;animation:rm-ai-blink 2.6s ease-in-out var(--node-delay,0s) infinite}
-.roadmap-ai-icon .rm-ai-eye{fill:oklch(0.72 0.17 220);stroke:none;animation:rm-ai-eye 5s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
-.roadmap-ai-icon .rm-ai-bar{fill:oklch(0.85 0.11 200 / 0.85);stroke:none;transform-box:fill-box;transform-origin:bottom;animation:rm-ai-bar 3s ease-in-out var(--bar-delay,0s) infinite}
-.roadmap-ai-icon .rm-ai-donut{stroke:oklch(0.72 0.17 220);stroke-width:5;stroke-dasharray:62 100;transform:rotate(-90deg);transform-box:fill-box;transform-origin:center;animation:rm-ai-spin 9s linear infinite}
-.roadmap-ai-icon .rm-ai-spark{stroke:oklch(1 0 0);stroke-width:3.4;stroke-dasharray:8 92;animation:rm-ai-trace 3.2s linear infinite}
-.roadmap-ai-icon .rm-ai-pin{animation:rm-ai-blink 3s ease-in-out var(--pin-delay,0s) infinite}
+.roadmap-ai-icon img{
+  width:100%;height:100%;object-fit:contain;user-select:none;
+  filter:drop-shadow(0 10px 18px oklch(0.45 0.2 280 / 0.35)) drop-shadow(0 0 14px oklch(0.8 0.15 220 / 0.55));
+  animation:rm-ai-glow 4.5s ease-in-out var(--ai-delay) infinite;
+}
+/* The robot is a head-and-shoulders picture: soften its cut-off shoulders */
+.roadmap-ai-icon.is-robot img{-webkit-mask-image:radial-gradient(ellipse 52% 54% at 50% 44%,#000 74%,transparent 100%);mask-image:radial-gradient(ellipse 52% 54% at 50% 44%,#000 74%,transparent 100%)}
 @keyframes rm-ai-float{0%,100%{transform:translateY(0) rotate(var(--ai-tilt))}50%{transform:translateY(-14px) rotate(calc(var(--ai-tilt) * -1))}}
-@keyframes rm-ai-glow{0%,100%{opacity:.66}50%{opacity:.95}}
-@keyframes rm-ai-blink{0%,100%{opacity:.45}50%{opacity:1}}
-@keyframes rm-ai-eye{0%,44%,48%,100%{transform:scaleY(1)}46%{transform:scaleY(.15)}}
-@keyframes rm-ai-bar{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.6)}}
-@keyframes rm-ai-spin{to{transform:rotate(270deg)}}
-@keyframes rm-ai-trace{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@keyframes rm-ai-glow{0%,100%{opacity:.8}50%{opacity:1}}
 @media(max-width:720px){
-  .roadmap-ai-icon{width:calc(var(--ai-size) * .62)}
+  .roadmap-ai-icon{width:calc(var(--ai-size) * .6);opacity:.85}
   .roadmap-ai-icon.is-left{left:1%}
   .roadmap-ai-icon.is-right{right:1%}
 }
 @media(prefers-reduced-motion:reduce){
-  .roadmap-ai-icon,.roadmap-ai-icon *{animation:none!important}
+  .roadmap-ai-icon,.roadmap-ai-icon img{animation:none!important}
 }
